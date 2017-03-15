@@ -578,6 +578,8 @@ Keep in mind that the `beforeEach` and `afterEach` hooks run just before and aft
 
 Remember that AVA runs each test file in its own process. You may not have to clean up global state in a `after`-hook since that's only called right before the process exits.
 
+#### Test context
+
 The `beforeEach` & `afterEach` hooks can share context with the test:
 
 ```js
@@ -743,7 +745,7 @@ AVA currently only transpiles the tests you ask it to run, as well as test helpe
 
 If you use Babel you can use its [require hook](https://babeljs.io/docs/usage/require/) to transpile imported modules on-the-fly. To add it, [configure it in your `package.json`](#configuration).
 
-You can also transpile your modules in a separate process and refer to the transpiled files rather than the sources from your tests.
+You can also transpile your modules in a separate process and refer to the transpiled files rather than the sources from your tests. Example [here](docs/recipes/precompiling-with-webpack.md).
 
 ### Promise support
 
@@ -1137,6 +1139,7 @@ It's the [Andromeda galaxy](https://simple.wikipedia.org/wiki/Andromeda_galaxy).
 - [JSPM and SystemJS](docs/recipes/jspm-systemjs.md)
 - [Debugging tests with Chrome DevTools](docs/recipes/debugging-with-chrome-devtools.md)
 - [Debugging tests with WebStorm](docs/recipes/debugging-with-webstorm.md)
+- [Precompiling source files with webpack](docs/recipes/precompiling-with-webpack.md)
 
 ## Support
 
@@ -1164,7 +1167,7 @@ It's the [Andromeda galaxy](https://simple.wikipedia.org/wiki/Andromeda_galaxy).
 ## Team
 
 [![Sindre Sorhus](https://avatars.githubusercontent.com/u/170270?s=130)](http://sindresorhus.com) | [![Vadim Demedes](https://avatars.githubusercontent.com/u/697676?s=130)](https://github.com/vadimdemedes) | [![James Talmage](https://avatars.githubusercontent.com/u/4082216?s=130)](https://github.com/jamestalmage) | [![Mark Wubben](https://avatars.githubusercontent.com/u/33538?s=130)](https://novemberborn.net) | [![Juan Soto](https://avatars.githubusercontent.com/u/8217766?s=130)](https://juansoto.me) | [![Jeroen Engels](https://avatars.githubusercontent.com/u/3869412?s=130)](https://github.com/jfmengels)
----|---|---|---|---|---|---
+---|---|---|---|---|---
 [Sindre Sorhus](http://sindresorhus.com) | [Vadim Demedes](https://github.com/vadimdemedes) | [James Talmage](https://github.com/jamestalmage) | [Mark Wubben](https://novemberborn.net) | [Juan Soto](http://juansoto.me) | [Jeroen Engels](https://github.com/jfmengels)
 
 ### Former

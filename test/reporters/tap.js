@@ -34,24 +34,75 @@ test('failing test', t => {
 	const actualOutput = reporter.test({
 		title: 'failing',
 		error: {
+			name: 'AssertionError',
 			message: 'false == true',
+			avaAssertionError: true,
+			assertion: 'true',
 			operator: '==',
-			expected: true,
-			actual: false,
+			expected: {formatted: 'true'},
+			actual: {formatted: 'false'},
 			stack: ['', 'Test.fn (test.js:1:2)'].join('\n')
 		}
 	});
 
-	const expectedOutput = [
-		'# failing',
-		'not ok 1 - failing',
-		'  ---',
-		'    operator: ==',
-		'    expected: true',
-		'    actual: false',
-		'    at: Test.fn (test.js:1:2)',
-		'  ...'
-	].join('\n');
+	const expectedOutput = `# failing
+not ok 1 - failing
+  ---
+    name: AssertionError
+    message: false == true
+    assertion: 'true'
+    operator: ==
+    actual: 'false'
+    expected: 'true'
+    at: 'Test.fn (test.js:1:2)'
+  ...`;
+
+	t.is(actualOutput, expectedOutput);
+	t.end();
+});
+
+test('multiline strings in YAML block', t => {
+	const reporter = new TapReporter();
+
+	const actualOutput = reporter.test({
+		title: 'multiline',
+		error: {
+			object: {
+				foo: 'hello\nworld'
+			}
+		}
+	});
+
+	const expectedOutput = `# multiline
+not ok 1 - multiline
+  ---
+    foo: |-
+      hello
+      world
+  ...`;
+
+	t.is(actualOutput, expectedOutput);
+	t.end();
+});
+
+test('strips ANSI from actual and expected values', t => {
+	const reporter = new TapReporter();
+
+	const actualOutput = reporter.test({
+		title: 'strip ansi',
+		error: {
+			avaAssertionError: true,
+			actual: {formatted: '\u001b[31mhello\u001b[39m'},
+			expected: {formatted: '\u001b[32mworld\u001b[39m'}
+		}
+	});
+
+	const expectedOutput = `# strip ansi
+not ok 1 - strip ansi
+  ---
+    actual: hello
+    expected: world
+  ...`;
 
 	t.is(actualOutput, expectedOutput);
 	t.end();
@@ -66,14 +117,12 @@ test('unhandled error', t => {
 		stack: ['', 'Test.fn (test.js:1:2)'].join('\n')
 	});
 
-	const expectedOutput = [
-		'# unhandled',
-		'not ok 1 - unhandled',
-		'  ---',
-		'    name: TypeError',
-		'    at: Test.fn (test.js:1:2)',
-		'  ...'
-	].join('\n');
+	const expectedOutput = `# unhandled
+not ok 1 - unhandled
+  ---
+    name: TypeError
+    at: 'Test.fn (test.js:1:2)'
+  ...`;
 
 	t.is(actualOutput, expectedOutput);
 	t.end();
